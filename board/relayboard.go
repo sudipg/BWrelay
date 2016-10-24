@@ -33,7 +33,7 @@ func main() {
 
     iface := svc.RegisterInterface("ctrlRelay", "i.echo")
 
-    // assume temperature is always in 'F
+    // relay state is saved as integers for now
     var relay1 int
     var relay2 int
     relay1 = 0
@@ -58,7 +58,7 @@ func main() {
         }
     })
 
-    //People can set what the message should be
+    //same system for relay2
     iface.SubscribeSlot("ctrl2", func(m *bw.SimpleMessage) {
         if newmsg := m.GetOnePODF(bw.PODFString); newmsg != nil {
             fmt.Println("got a new state command for relay 2")
@@ -77,7 +77,7 @@ func main() {
         }
     })
 
-    //Also, every five seconds, we publish the message
+    //Also, every 2 seconds, we publish the message with the current state of the relays
     for {
         fmt.Println("current relay1 state is ", relay1)
         fmt.Println("current relay2 state is ", relay2)
